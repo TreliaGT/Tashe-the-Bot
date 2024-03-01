@@ -11,7 +11,6 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 ITEM_API = "https://api.open5e.com/v1/magicitems/?desc=&desc__icontains=&desc__iexact=&desc__in=&document__slug=&document__slug__iexact=&document__slug__in=&document__slug__not_in=&format=json&name=&name__iexact=&rarity=&rarity__icontains=common&rarity__iexact=&requires_attunement=&requires_attunement__iexact=&slug=&slug__iexact=&slug__in=&type=&type__icontains=&type__iexact="
 TOKEN = ""
 HUB_ID = 0
-
 user_inventory = {}
 
 #Went entering the server
@@ -100,7 +99,7 @@ async def list_user_items(ctx):
 
 
 
-@tasks.loop(hours=24)  # This will run the function once every 24 hours
+@tasks.loop(hours=1)  # This will run the function once every 24 hours
 async def daily_task():
     # Get the channel where you want to execute the command
     channel = bot.get_channel(HUB_ID)  # Replace YOUR_CHANNEL_ID with the ID of your desired channel
@@ -114,9 +113,10 @@ async def before_daily_task():
 
     # Calculate the time until the next 7:30 AM
     now = datetime.datetime.now()
-    desired_time = now.replace(hour=10, minute=30, second=0, microsecond=0)
+    desired_time = now.replace(hour=12, minute=00, second=0, microsecond=0)
     if now > desired_time:
         desired_time += datetime.timedelta(days=1)  # If it's past 7:30 AM today, schedule for tomorrow
+      
     delta = desired_time - now
 
     # Sleep until 7:30 AM
